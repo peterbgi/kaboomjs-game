@@ -27,7 +27,7 @@ export function makePlayer(k)
 
                 this.controlHandlers.push(
                     k.onKeyPress((key) => {
-                        if (k === "x") {
+                        if (key === "x") {
                             if(this.curAnim() !== "jump") this.play("jump");
                             this.doubleJump();
                         }
@@ -69,6 +69,16 @@ export function makePlayer(k)
                             this.move(-this.speed, 0);
                             return;
                         }
+
+                                        
+                            if (key === "right" && !this.isAttacking) {
+                                if (this.curAnim() !== "run" && this.isGrounded()) {
+                                this.play("run");
+                                }
+                                this.flipX = false;
+                                this.move(this.speed, 0);
+                                return;
+                            }
                     })
                 );
 
