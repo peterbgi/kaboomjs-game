@@ -17,12 +17,12 @@ export  function room1(k, roomData)
 
     const colliders = [];
 
-    const position = [];
+    const positions = [];
 
     for (const layer of roomLayers)
         {
-            if (layer.name === "position") {
-                position.push(...layer.objects);
+            if (layer.name === "positions") {
+                positions.push(...layer.objects);
                 continue;
             }
 
@@ -36,9 +36,9 @@ export  function room1(k, roomData)
 
         setMapColliders(k, map, colliders);
 
-        const player = k.add(makePlayer(k));
+        const player = map.add(makePlayer(k));
 
-        for (const p of position) {
+        for (const p of positions) {
             if (p.name === "player") {
                 player.setPosition(p.x, p.y)
                 player.setControls();
