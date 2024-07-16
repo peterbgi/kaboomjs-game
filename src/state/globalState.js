@@ -1,7 +1,7 @@
 export const stateProp = {
     playerHp: "playerHp",
     isDoubleJumpUnlocked: "isDoubleJumpUnlocked",
-    playerIsBossFight: "playerIsBossFight",
+    playerInBossFight: "playerInBossFight",
     isBossDefated: "isBossDefated",
 };
 
@@ -11,7 +11,7 @@ function stateManager()
         playerHp: 4,
         maxPlayerHp: 4,
         isDoubleJumpUnlocked: false,
-        playerIsBossFight: false,
+        playerInBossFight: false,
         isBossDefated: false
     };
 
