@@ -49,3 +49,34 @@ export function setMapColliders(k, map, colliders)
                     ]);
         }
 }
+
+export function setCameraControls(k, player, roomData) 
+{
+
+}
+
+export function setCameraZones(k, map, cameras)
+{
+    for (const c of cameras)
+        {
+            const cameraZone = map.add([
+                k.area({
+                    shape: new k.Rect(k.vec2(0), c.width, c.height),
+                    collisionIgnore: ["collider",]
+                }),
+                k.pos(c.x, c.y),
+            ]);
+
+            cameraZone.onCollide("player", () => {
+                if (k.camPos().x !== c.properties[0].value) {
+                    k.tween(
+                        k.camPos().y,
+                        c.properties[0].value,
+                        0.8,
+                        (val) => k.camPos(k.camPos().x, val),
+                        k.easings.linear
+                    );
+                }
+            });
+        }
+}

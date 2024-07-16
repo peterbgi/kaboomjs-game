@@ -22,6 +22,15 @@ export function makePlayer(k)
                 this.pos.x = x;
                 this.pos.y = y;
             },
+            enablePassthrough() {
+                this.onBeforePhysicsResolve((collision) => {
+                    if (collision.target.is("passthrough") && this.isJumping())
+                        {
+                            collision.preventResolution();
+                        }
+                });
+
+            },
             setControls() {
                 this.controlHandlers = [];
 
@@ -93,6 +102,20 @@ export function makePlayer(k)
                             this.play("idle"); 
                     })
                 )
+            },
+            setEvents() {
+                this.onFall(() => {
+                    this.play("fall");
+                });
+                this.onFallOff(() => {
+                    this.play("fall");
+                });
+                this.onGround(() => {
+                    this.play("idle");
+                });
+                this.onHeadbutt(() => {
+                    this.play("fall");
+                });
             },
         },
     ]);
