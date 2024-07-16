@@ -2,13 +2,15 @@ export function makeDrone(k, initialPos ) {
     return k.make([
          k.pos(initialPos),
           k.sprite("drone", {anim: "flying"}),
-          k.area({shape: new k.React(k.vec2(0),12, 12 )}),
+          k.area({shape: new k.Rect(k.vec2(0),12, 12 )}),
           k.anchor("center"),
           k.body({gravityScale: 0 }),
           k.offscreen({distance: 400}),
           k.state("patrol-right", [
-            "patrol-right", "patrol-left",
-            "alert", "attack",
+            "patrol-right", 
+            "patrol-left",
+            "alert", 
+            "attack",
             "retreat"
           ]),
           k.health(1),

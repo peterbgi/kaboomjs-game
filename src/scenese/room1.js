@@ -65,9 +65,9 @@ export  function room1(k, roomData)
                 continue;
             }
 
-            if (positions.type === "drone")
+            if (p.type === "drone")
                 {
-                    const drone = map.add(makeDrone(k, k.vec2(positions.x, positions.y)));
+                    const drone = map.add(makeDrone(k, k.vec2(p.x, p.y)));
                     drone.setBehavior();
                     drone.setEvents();
              
