@@ -1,4 +1,4 @@
-import { state } from "../state/globalState.js"
+import { state, stateProp } from "../state/globalState.js"
 
 export function BgColor(k, hexColorCode)
 {
@@ -36,7 +36,74 @@ export function setMapColliders(k, map, colliders)
 
                 if  (collider.name === "boss-barier")
                     {
-                        //ToDo
+                        const boosBarrier = map.add([
+                            k.rect(collider.width, collider.height),
+                            k.color(k.Color.fromHex("#eacfba")),
+                            k.pos(collider.x, collider.y),
+                            k.area({
+                                collisionIgnore: ["collider"],
+                            }),
+                            k.opacity(0),
+                            "boss-barrier",
+                            {
+                                activate() {
+                                    k.tween(
+                                        this.opacity,
+                                        0.3,
+                                        1,
+                                        (val) => (this.opacity = val),
+                                        k.easings.linear
+                                    );
+
+                                    k.tween(
+                                        k.camPos().x,
+                                        collider.properties[0].value,
+                                        1,
+                                        (val) => k.camPos(val, k.camPos().y),
+                                        k.easings.linear
+                                    );
+                                },
+                                async deactivate(playerPosX) {
+                                    k.tween(
+                                        this.opacity,
+                                        0,
+                                        1,
+                                        (val) => (this.opacity = val),
+                                        k.easings.linear,
+                                    );
+
+                                    await k.tween(
+                                        k.camPos().x,
+                                        playerPosX,
+                                        1,
+                                        (val) => k.camPos(val, k.camPos().y),
+                                        k.easings.linear,
+                                    );
+                                    k.destroy(this);
+                                },
+                            },
+                        ]);
+                        boosBarrier.onCollide("player", async (player) => {
+                            const currentState = state.current();
+                            if ( currentState.isBossDefated) {
+                                state.set(stateProp.playerInBossFight, false);
+                                boosBarrier.deactivate(player.pos.x);
+                                return;
+                            }
+
+                            if (currentState.playerInBossFight) return;
+
+                            player.disableControls();
+                            player.player("idle");
+                            await k.tween(
+                                player.pos.x,
+                                player.pos.x + 25,
+                                0.2,
+                                (val) => (player.pos.x = val),
+                                k.easings.linear
+                            );
+                            player.setControls();
+                        });
                         continue;
                     }
 

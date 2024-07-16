@@ -103,6 +103,18 @@ export function makePlayer(k)
                     })
                 )
             },
+            disableControls() {
+                for (const h of this.controlHandlers) {
+                    h.cancel();
+                }
+            },
+
+            respawnIfOutOBounds(boundValue,
+                 destinationName, 
+                 previousSeenData = {exitName: null}) {
+                    //TODO
+
+            },
             setEvents() {
                 this.onFall(() => {
                     this.play("fall");
